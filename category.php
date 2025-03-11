@@ -1,3 +1,4 @@
+
 <?php
    include('header.php');
    checkUser();
@@ -20,10 +21,9 @@
    } else {
       $res = mysqli_query($con, "SELECT * FROM category ORDER BY id DESC");
    }
+ 
 ?>
-<?php
-   if(mysqli_num_rows($res) > 0){
-?>
+
 <script>
    setTitle("Category");
    selectLink('category_link');
@@ -38,22 +38,23 @@
    <div class="section__content section__content--p30">
       <div class="container-fluid">
          <div class="row">
-            <div class="col-lg-4.5">
+         <div class="col-lg-5.5">
                <h2>Category</h2>
                <a href="manage_category.php">Add category</a>
                <br/><br/>
-               <div class="table-responsive table--no-card m-b-30">
+               <?php if(mysqli_num_rows($res) > 0) { ?>
+                  <div class="table-responsive table--no-card m-b-30">
                   <table class="table table-borderless table-striped table-earning">
                      <thead>
                         <tr>
                            <th>Name</th>
                            <th>Type</th>
-                         
+                           <th></th>
                            <?php
                               if($_SESSION['UROLE']=='Admin')
                               { ?>
                                    <th>User</th>
-                                   <th></th>
+                                 
                               <?php } ?>
                         </tr>
                      <tbody>
@@ -61,32 +62,30 @@
                         <tr>
                            <td><?php echo $row['name']?></td>
                            <td><?php echo $row['type']?></td>
-                           
-                              <?php
-                              if($_SESSION['UROLE']=='Admin')
-                              { ?>
-                              <td><?php echo $row['user_id']?></td>
-                                 <td>
+                           <td>
                                     <a href="manage_category.php?id=<?php echo $row['id'];?>">Edit</a>&nbsp;
                                     <a href="javascript:void(0)" onclick="delete_confir('<?php echo $row['id'];?>','category.php')">Delete</a>
                                  </td>
+<?php
+                           if($_SESSION['UROLE']=='Admin')
+                           { ?>
+                              <td><?php echo $row['user_id']?></td>
                               <?php } ?>
+                                
+                             
                         </tr>
                         <?php } ?>
                      </tbody>
                   </table>
-                  
                </div>
+               <?php } else { echo "No expense data found"; } ?>
+
+                           
             </div>
          </div>
       </div>
    </div>
 </div>
-<?php } 
-                     else{
-                     	echo "No data found";
-                     }
-                     ?>
 <?php
    include('footer.php');
-?>
+   ?>
