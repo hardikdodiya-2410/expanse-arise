@@ -4,18 +4,18 @@ $msg="";
 $username="";
 $password="";
 $label="Add";
-/*if(isset($_GET['id']) && $_GET['id']>0){
-	$label="Edit";
-	$id=get_safe_value($_GET['id']);
-	$res=mysqli_query($con,"select * from users where id=$id");
-	if(mysqli_num_rows($res)==0){
-		redirect('users.php');
-		die();
-	}
-	$row=mysqli_fetch_assoc($res);
-	$username=$row['username'];
-	$password=$row['password'];
-}*/
+// if(isset($_GET['id']) && $_GET['id']>0){
+// 	$label="Edit";
+// 	$id=get_safe_value($_GET['id']);
+// 	$res=mysqli_query($con,"select * from users where id=$id");
+// 	if(mysqli_num_rows($res)==0){
+// 		redirect('users.php');
+// 		die();
+// 	}
+// 	$row=mysqli_fetch_assoc($res);
+// 	$username=$row['username'];
+// 	$password=$row['password'];
+// }
 
 if(isset($_POST['submit'])){
 	$password=get_safe_value($_POST['password']);
@@ -26,7 +26,7 @@ if(isset($_POST['submit'])){
 		$sub_sql="and id!=$id";
 	}
 	
-	$res=mysqli_query($con,"select * from users where username='$username' $sub_sql");
+	$res=mysqli_query($con,"select * from users where id='$id'");
 	if(mysqli_num_rows($res)>0){
 		$password=password_hash($password,PASSWORD_DEFAULT);
 		if(isset($_GET['id']) && $_GET['id']>0){

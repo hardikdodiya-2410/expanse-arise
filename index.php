@@ -86,6 +86,7 @@ if(isset($_POST['login'])){
                                     <a href="manage_user.php">Sign Up Here</a>
                                 </p>
                             </div>
+                          
                         </div>
                     </div>
                 </div>

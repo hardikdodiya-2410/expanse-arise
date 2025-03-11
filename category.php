@@ -2,7 +2,7 @@
 <?php
    include('header.php');
    checkUser();
-   
+
    if(isset($_GET['type']) && $_GET['type']=='delete' && isset($_GET['id']) && $_GET['id']>0){
        $id = get_safe_value($_GET['id']);
        $result = mysqli_query($con, "DELETE FROM category WHERE id=$id");
