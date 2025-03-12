@@ -92,7 +92,11 @@
                      <i class="fas  fa-rupee"></i>Investment</a>
                   </li>
                 
-               
+                  <li id="investment_link">
+                     <a href="change_password.php">
+                     change password</a>
+                  </li>
+                
                   <li id="reports_link">
                      <a href="reports.php">
                      <i class="fas fa-chart-bar"></i>Reports</a>

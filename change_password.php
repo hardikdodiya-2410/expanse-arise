@@ -1,91 +1,42 @@
 <?php
 include('header.php');
-$msg="";
-$username="";
-$password="";
-$label="Add";
-// if(isset($_GET['id']) && $_GET['id']>0){
-// 	$label="Edit";
-// 	$id=get_safe_value($_GET['id']);
-// 	$res=mysqli_query($con,"select * from users where id=$id");
-// 	if(mysqli_num_rows($res)==0){
-// 		redirect('users.php');
-// 		die();
-// 	}
-// 	$row=mysqli_fetch_assoc($res);
-// 	$username=$row['username'];
-// 	$password=$row['password'];
-// }
+$msg = "";
+
+if(isset($_SESSION['UID']) && $_SESSION['UID'] != ''){
+    $id = $_SESSION['UID'];
+    $res = mysqli_query($con, "SELECT username FROM users WHERE id='$id'");
+    if($row = mysqli_fetch_assoc($res)) {
+        $username = $row['username'];
+    }
+} else {
+    redirect('index.php');
+}
+userArea();
 
 if(isset($_POST['submit'])){
-	$password=get_safe_value($_POST['password']);
-	$type="add";
-	$sub_sql="";
-	if(isset($_GET['id']) && $_GET['id']>0){
-		$type="edit";
-		$sub_sql="and id!=$id";
-	}
-	
-	$res=mysqli_query($con,"select * from users where id='$id'");
-	if(mysqli_num_rows($res)>0){
-		$password=password_hash($password,PASSWORD_DEFAULT);
-		if(isset($_GET['id']) && $_GET['id']>0){
-			$sql="update users set username='$username',password='$password' where id=$id";
-		}
-		mysqli_query($con,$sql);
-		redirect('index.php');
-		$msg="Password is changed!!!";
-	}
-	else
-	{
-		
-		$password=password_hash($password,PASSWORD_DEFAULT);
-		
-		$sql="insert into users(username,password,role) values('$username','$password','User')";
-		if(isset($_GET['id']) && $_GET['id']>0){
-			$sql="update users set username='$username',password='$password' where id=$id";
-		}
-		mysqli_query($con,$sql);
-		redirect('index.php');
-	}
-}
+    $password = get_safe_value($_POST['password']);
+    $confirm_password = get_safe_value($_POST['confirm_password']);
 
+    if($password !== $confirm_password){
+        $msg = "Passwords do not match!";
+    } else {
+        $res = mysqli_query($con, "SELECT * FROM users WHERE id='$id'");
+        if(mysqli_num_rows($res) > 0){
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET password='$password' WHERE id=$id";
+            mysqli_query($con, $sql);
+            $msg = "Password is changed successfully!";
+        } else {
+            $msg = "User not found!";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
-
-    <!-- Title Page-->
-    <title>Register</title>
-
-    <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-
-    <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-
-    <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
+    <title>Change Password</title>
     <link href="css/theme.css" rel="stylesheet" media="all">
-
 </head>
 <body class="animsition">
     <div class="page-wrapper">
@@ -99,18 +50,28 @@ if(isset($_POST['submit'])){
                             </a>
                         </div>
                         <div class="login-form">
-						<br/>
-<form action="" method="post">
-	
-	<div class="form-group">
-        <label>New Password</label>
-        <input class="au-input au-input--full" type="password" name="password" required value="<?php echo $password?>" placeholder="New Password">
+                            <form action="" method="post">
+                            <div class="form-group">
+    <label>Username</label>
+    <input class="au-input au-input--full" type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" readonly>
+</div>
+
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input class="au-input au-input--full" type="password" name="password" required placeholder="New Password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <input class="au-input au-input--full" type="password" name="confirm_password" required placeholder="Confirm Password">
+                                </div>
+                                <div id="msg"><?php echo $msg; ?></div>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit" name="submit">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-	<div id="msg"><?php echo $msg?></div>
-	<button class="au-btn au-btn--block au-btn--green m-b-20" type="submit" name="submit">Change Password</button>
-</form>
 
-
-<?php
-include('footer.php');
-?>
+<?php include('footer.php'); ?>

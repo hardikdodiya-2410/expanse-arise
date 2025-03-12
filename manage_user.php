@@ -4,6 +4,8 @@ include('functions.php');
 $msg="";
 $username="";
 $password="";
+$Email="";
+$Mobile="";
 $label="Add";
 /*if(isset($_GET['id']) && $_GET['id']>0){
 	$label="Edit";
@@ -20,7 +22,10 @@ $label="Add";
 
 if(isset($_POST['submit'])){
 	$username=get_safe_value($_POST['username']);
-	$password=get_safe_value($_POST['password']);
+    $password = get_safe_value($_POST['password']);
+    $Email = get_safe_value($_POST['email']);
+    $Mobile = get_safe_value($_POST['mobile']);
+
 	$type="add";
 	$sub_sql="";
 	if(isset($_GET['id']) && $_GET['id']>0){
@@ -37,7 +42,7 @@ if(isset($_POST['submit'])){
 		
 		$password=password_hash($password,PASSWORD_DEFAULT);
 		
-		$sql="insert into users(username,password,role) values('$username','$password','User')";
+		$sql="insert into users(username,password,email,mobile,role) values('$username','$password','$Email','$Mobile','User')";
 		if(isset($_GET['id']) && $_GET['id']>0){
 			$sql="update users set username='$username',password='$password' where id=$id";
 		}
@@ -102,6 +107,14 @@ if(isset($_POST['submit'])){
         <input class="au-input au-input--full" type="text" name="username" required value="<?php echo $username?>" placeholder="Username">
 	</div>
 	<div class="form-group">
+        <label>Email</label>
+        <input class="au-input au-input--full" type="Email" name="email" required value="<?php echo $Email?>" placeholder="email">
+    </div>
+    <div class="form-group">
+        <label>Mobile</label>
+        <input class="au-input au-input--full" type="numver" name="mobile" maxlength="10" required value="<?php echo $Mobile?>" placeholder="mobile">
+    </div>
+    <div class="form-group">
         <label>Password</label>
         <input class="au-input au-input--full" type="password" name="password" required value="<?php echo $password?>" placeholder="Password">
     </div>

@@ -1,7 +1,24 @@
 <?php
    include('header.php');
-   checkUser();
+
+   if(isset($_SESSION['UID']) && $_SESSION['UID']!=''){
+	
+		$id=$_SESSION['UID'];
+	}else{
+		redirect('index.php');
+	}
    userArea();
+
+   $res=mysqli_query($con,"select * from users where id=$id");
+   $check_user=mysqli_num_rows($res);
+   if($check_user>0){
+       $row=mysqli_fetch_assoc($res);
+       $name=$row['username'];
+       $email=$row['email'];
+       $mobile=$row['mobile'];
+   }
+ 
+
    ?>
 <script>
    setTitle("Dashboard");
@@ -16,6 +33,7 @@
                   <div class="overview__inner">
                      <div class="overview-box clearfix">
                         <div class="text">
+                       
                            <h2><?php echo getDashboardExpense('today')?></h2>
                            <span>Today's Expense</span>
                         </div>
