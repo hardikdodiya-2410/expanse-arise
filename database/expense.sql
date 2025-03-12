@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2025 at 05:49 PM
+-- Generation Time: Mar 12, 2025 at 07:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,9 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`id`, `user_id`, `name`, `type`) VALUES
 (14, 21, 'food', 'expense'),
-(15, 21, 'sip', 'investment');
+(15, 21, 'sip', 'investment'),
+(16, 21, 'The Maroon Suit', 'expense'),
+(17, 21, 'stokes ', 'investment');
 
 -- --------------------------------------------------------
 
@@ -63,7 +65,8 @@ CREATE TABLE `expense` (
 --
 
 INSERT INTO `expense` (`id`, `category_id`, `item`, `price`, `details`, `expense_date`, `added_by`) VALUES
-(10, 14, '2', 5000, 'gsrtc', '2025-03-06', 21);
+(11, 14, '3', 0, 'adg', '2025-03-10', 21),
+(12, 16, '12', 12344, 'wedding clothes ', '2025-03-11', 21);
 
 -- --------------------------------------------------------
 
@@ -86,7 +89,8 @@ CREATE TABLE `investment` (
 --
 
 INSERT INTO `investment` (`id`, `category_id`, `item`, `price`, `details`, `investment_date`, `added_by`) VALUES
-(1, 15, '2', 2000.00, 'sip', '2025-03-06', 21);
+(2, 15, 'fhfgh', 5.00, 'fgjghjyk', '2025-03-03', 21),
+(3, 17, '2', 500.00, 'tcs', '2025-03-10', 21);
 
 -- --------------------------------------------------------
 
@@ -98,6 +102,8 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `mobile` text NOT NULL,
   `role` enum('Admin','User') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -105,13 +111,14 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
-(4, 'admin', '$2y$10$nrTrhAZ3494mN1NftSbcDezuyzQ3LDRh.Hvw7ZeTi6oQhRe0.Jn6m', 'Admin'),
-(9, 'kavyaa', '$2y$10$LhqtrnpeGuA5DGl6xmGCn.oeLtTmcHSdv5xTn6QGbnwkCEkm7OrnK', 'User'),
-(10, 'foram', '$2y$10$4CAwidOESkF1mvG7AVqieu.tA7wUMEJTZELo1u0bS5yRE8PvD6jlm', 'User'),
-(19, 'omrupani', '$2y$10$5pyWRFJEWgnauPFUzwoALueamjYIZNIZJMUz1t90KqHOMoJDpE7Iu', 'User'),
-(20, 'hardik', '$2y$10$5Ne3c2O1K6CrreJpCKf4ye5TfNhFbp7AFZg3qmuJfwqbLN957vvZe', 'Admin'),
-(21, 'hardikuser', '$2y$10$iKynR8YaFXSA7j5uQ9R87edyCLtvMJ.f3Qwy5LxBx.XJnLrBnbYJO', 'User');
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `mobile`, `role`) VALUES
+(4, 'admin', '$2y$10$nrTrhAZ3494mN1NftSbcDezuyzQ3LDRh.Hvw7ZeTi6oQhRe0.Jn6m', '', '0', 'Admin'),
+(20, 'hardik', '$2y$10$5Ne3c2O1K6CrreJpCKf4ye5TfNhFbp7AFZg3qmuJfwqbLN957vvZe', '', '0', 'Admin'),
+(21, 'hardikuser', '$2y$10$iKynR8YaFXSA7j5uQ9R87edyCLtvMJ.f3Qwy5LxBx.XJnLrBnbYJO', '', '0', 'User'),
+(22, 'jeel', '$2y$10$yYWBLs2Ky9KvVELI3nGoOu4c1K3RK809xT/FJsiOI5scdGlDnbbwC', '', '0', 'User'),
+(26, 'vinay', '$2y$10$NhRstpdVafO0NgY2w8NgyOOZI72zN1Z/k920eI8U/Wg86vxQMwHke', 'vinay123@gmail.com', '2147483647', 'User'),
+(27, 'DODIYA HARDIK DINESHBHAI', '$2y$10$8GeAbtHI4hmNEfqP3el7luaiiSXZ1VEfser2aAd3ABw/R9PIvRaIa', 'hardikdodiya2410@gmail.com', '2147483647', 'User'),
+(28, 'deep', '$2y$10$KwctPGfoTt4LzMM32fZOYuEsqokSEovqsEGSp91xd0B7wyJTk8iOG', 'deepdodiya2410@gmail.com', '7285008403', 'User');
 
 --
 -- Indexes for dumped tables
@@ -151,25 +158,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `investment`
 --
 ALTER TABLE `investment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
