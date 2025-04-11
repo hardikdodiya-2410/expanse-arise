@@ -83,14 +83,34 @@ function getDashboardExpense($type){
 		$from='';
 		$to='';
 	}
+	if($type=='today'){
+		$sub_sql1=" and investment_date='$today'";
+		$from=$today;
+		$to=$today;
+	}
+	elseif($type=='yesterday'){
+		$yesterday=date('Y-m-d',strtotime('yesterday'));
+		$sub_sql1=" and investment_date='$yesterday'";
+		$from=$yesterday;
+		$to=$yesterday;
+	}elseif($type=='week' || $type=='month' || $type=='year'){
+		$from=date('Y-m-d',strtotime("-1 $type"));
+		$sub_sql1=" and investment_date between '$from' and '$today'";
+		$to=$today;
+	}else{
+		$sub_sql1=" ";
+		$from='';
+		$to='';
+	}
 	
 	$res=mysqli_query($con,"select sum(price) as price from expense where added_by='".$_SESSION['UID']."' $sub_sql");
-	
+	$res1=mysqli_query($con,"select sum(price) as price from investment where added_by='".$_SESSION['UID']."' $sub_sql1");
 	$row=mysqli_fetch_assoc($res);
+	$row1=mysqli_fetch_assoc($res1);
 	$p=0;
 	$link="";
-	if($row['price']>0){
-		$p=$row['price'];
+	if($row['price']>0 || $row1['price']>0){
+		$p=$row['price']+$row1['price'];
 		$link="&nbsp;<a href='dashboard_report.php?from=".$from."&to=".$to."' target='_blank' class='detail_link'>Details</a>";
 	}
 	

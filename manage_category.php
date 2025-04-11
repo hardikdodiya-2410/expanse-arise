@@ -29,16 +29,15 @@ $uid= $_SESSION['UID'];
    	}
    	
    	$res=mysqli_query($con,"select * from category where name='$name' $sub_sql");
-   	if(mysqli_num_rows($res)>0){
-   		$msg="Category already exists";
-   	}else{
+   
+   	
    		$sql="insert into category(name, type,user_id) values('$name', '$type','$uid')";
    		if(isset($_GET['id']) && $_GET['id']>0){
    			$sql="update category set name='$name', type='$type' where id=$id";
    		}
    		mysqli_query($con,$sql);
    		redirect('category.php');
-   	}
+   	
    }
    ?>
 <script>
